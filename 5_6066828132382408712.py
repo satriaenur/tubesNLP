@@ -1,8 +1,13 @@
 # import pandas as pd
+from nltk.classify import SklearnClassifier
+import nltk
 import numpy as np
 import re
 import string
 import json
+import pickle
+from sklearn.multiclass import OneVsRestClassifier
+from sklearn.naive_bayes import MultinomialNB
 
 def tokenisasi():
 	data = pd.read_csv("dataset.csv", quotechar='"', skipinitialspace=True)
@@ -27,12 +32,24 @@ def getting_label(labelfile):
 
 def frequency(data,labels):
 	freq = {}
+	words = {}
 	for i in range(data.shape[0]):
 		for label in labels[i]:
 			freq[label] = freq.get(label, {})
 			for kata in data[i]:
+				words[kata] =  words.get(kata, 0)
 				freq[label][kata] = freq[label].get(kata, 0) + 1
-	return freq
+	return freq,words
+
+def feature_extract(words, kata):
+	for data in words:
+		feature = []
+		j = 0
+		for kata in katas:
+			feature.append(data.count(kata))
+			j += 1
+		features.append(feature)
+	return features
 
 # cleansing
 # stopword = np.genfromtxt("stopword.txt", dtype=None, delimiter="\n")
@@ -42,11 +59,31 @@ def frequency(data,labels):
 
 # count frequency
 words = np.array(map(lambda x: x.split(),np.genfromtxt("cleanwords3.txt", dtype='string', delimiter="\n")))
-label = getting_label(np.genfromtxt("Genre.csv",dtype="string",delimiter="\n"))
-freq = frequency(words,label)
+labels = getting_label(np.genfromtxt("Genre.csv",dtype="string",delimiter="\n"))
+labeltest = np.genfromtxt('labelfornltk.txt',dtype='int')
+genre, kata = frequency(words,labels)
+katas = np.array(kata.keys())
 
-# for (label, word) in freq.items():
-# 	with open('datafreq/'+label+'.json', 'w') as f:
-# 		json.dump(word,f)
-# with open('frequency.json', 'w') as f:
-#     json.dump(freq, f)
+# cara extract feature
+features = feature_extract(words, katas)
+
+# cara create model
+# ovr = OneVsRestClassifier(MultinomialNB())
+# ovr.fit(features,labeltest)
+
+# cara save model
+# save_classifier = open("naivebayes.pickle","wb")
+# pickle.dump(ovr, save_classifier)
+# save_classifier.close()
+
+# cara load model
+classifier_f = open("naivebayes.pickle", "rb")
+classifier = pickle.load(classifier_f)
+classifier_f.close()
+
+# cara predict
+hasil = classifier.predict(features)
+for i in hasil:
+	arrnya = np.where(i==1)
+	for h in arrnya[0]:
+		print genre.keys()[h]
