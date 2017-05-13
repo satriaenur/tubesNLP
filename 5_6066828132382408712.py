@@ -41,7 +41,8 @@ def frequency(data,labels):
 				freq[label][kata] = freq[label].get(kata, 0) + 1
 	return freq,words
 
-def feature_extract(words, kata):
+def feature_extract(words, katas):
+	features = []
 	for data in words:
 		feature = []
 		j = 0
@@ -51,6 +52,28 @@ def feature_extract(words, kata):
 		features.append(feature)
 	return features
 
+def load_model(filename):
+	classifier_f = open(filename, "rb")
+	classifier = pickle.load(classifier_f)
+	classifier_f.close()
+	return classifier
+
+
+def aplikasi(modelfilename):
+	# words = np.array(map(lambda x: x.lower().split(),np.genfromtxt("input.txt", dtype='string', delimiter="\n")))
+	words = [np.genfromtxt("input.txt", dtype='string', delimiter="\n").tostring().lower().split()]
+	kata = np.genfromtxt("feature_list.txt", dtype='string', delimiter='\n')
+	genre = np.genfromtxt("target_list.txt", dtype='string', delimiter='\n')
+	features = feature_extract(words, kata)
+	model = load_model(modelfilename)
+	hasil = model.predict(features)
+	for i in hasil:
+		arrresult = np.where(i==1)
+		resultstring = ""
+		for h in arrresult[0]:
+			resultstring += genre[h]+", "
+		print resultstring[:-2],"\n"
+
 # cleansing
 # stopword = np.genfromtxt("stopword.txt", dtype=None, delimiter="\n")
 # data= np.genfromtxt("cleanwords3.txt", dtype='string', delimiter="\n")
@@ -58,14 +81,11 @@ def feature_extract(words, kata):
 # np.savetxt("cleanwords3.txt", datastopword, fmt="%s")
 
 # count frequency
-words = np.array(map(lambda x: x.split(),np.genfromtxt("cleanwords3.txt", dtype='string', delimiter="\n")))
-labels = getting_label(np.genfromtxt("Genre.csv",dtype="string",delimiter="\n"))
-labeltest = np.genfromtxt('labelfornltk.txt',dtype='int')
-genre, kata = frequency(words,labels)
-katas = np.array(kata.keys())
+# labeltest = np.genfromtxt('labelfornltk.txt',dtype='int')
+# genre, kata = frequency(words,labels)
 
 # cara extract feature
-features = feature_extract(words, katas)
+# features = feature_extract(words, katas)
 
 # cara create model
 # ovr = OneVsRestClassifier(MultinomialNB())
@@ -77,13 +97,16 @@ features = feature_extract(words, katas)
 # save_classifier.close()
 
 # cara load model
-classifier_f = open("naivebayes.pickle", "rb")
-classifier = pickle.load(classifier_f)
-classifier_f.close()
+# classifier_f = open("naivebayes.pickle", "rb")
+# classifier = pickle.load(classifier_f)
+# classifier_f.close()
 
 # cara predict
-hasil = classifier.predict(features)
-for i in hasil:
-	arrnya = np.where(i==1)
-	for h in arrnya[0]:
-		print genre.keys()[h]
+# hasil = classifier.predict(features)
+# for i in hasil:
+# 	arrnya = np.where(i==1)
+# 	for h in arrnya[0]:
+# 		print genre.keys()[h]
+
+# Aplikasi jadi
+aplikasi("naivebayes.pickle")
