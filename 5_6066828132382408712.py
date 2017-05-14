@@ -6,6 +6,7 @@ import re
 import string
 import json
 import pickle
+import csv
 from sklearn.multiclass import OneVsRestClassifier
 from sklearn.naive_bayes import MultinomialNB
 from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
@@ -74,6 +75,91 @@ def aplikasi(modelfilename):
 		for h in arrresult[0]:
 			resultstring += genre[h]+", "
 		print resultstring[:-2],"\n"
+		
+# Ambil data training untuk diubah jadi data testing
+def toDataTest():
+	openCSV = open('dataset (3).csv','r' )
+	csvReader = csv.reader(openCSV, delimiter=",")
+	openCSV	= open('datatest/genreDatetest.csv','wb')
+	csvWriter=csv.writer(openCSV,delimiter=',', quotechar='|')
+	newList = list(csvReader)
+	split_size = int(len(newList) * 0.25)
+	newList = newList[1:split_size]
+	index = 0
+	for row in newList:
+		if len(row[len(row) - 1])!=0:
+			openTxt = open('datatest/' + str(index) + '.txt', 'wb')
+			openTxt.write(row[len(row) - 1])
+			csvWriter.writerow(row[0].split(","))
+			index += 1
+	print "finish"
+
+# prediksi genre untuk tiap datatest
+def predictdatatest():
+	openCSV = open('datatest/predictionTest.csv', 'wb')
+	csvWriter = csv.writer(openCSV, delimiter=',', quotechar='|')
+	for i in range(1121):
+		filename='datatest/'+str(i)+'.txt'
+		csvWriter.writerow(aplikasi("naivebayes.pickle",filename))
+		print aplikasi("naivebayes.pickle",filename)
+		if i%200==0:
+			print "iterasi : "+ str(i)
+
+# Evaluasi Precision and Recall
+def evaluation():
+	actual = list(csv.reader(open('datatest/genreDatetest.csv', 'r'), delimiter=','))
+	prediction=list(csv.reader(open('datatest/predictionTest.csv', 'r'), delimiter=','))
+	genres = np.genfromtxt("target_list.txt", dtype='string', delimiter='\n')
+	sumClass=len(genres)
+
+	precision = 0
+	recal = 0
+	for genre in genres:
+		index=0
+		tp=0
+		fn=0
+		fp=0
+		for row in prediction:
+			newRow=[x.lower() for x in row]
+			newActual=[x.lower() for x in actual[index]]
+
+			# print newRow
+			# print newActual
+			# print "-----------------------------------------"
+			if (genre in newRow) and (genre in newActual):
+				tp+=1
+			elif genre in newRow:
+				fp+=1
+			elif genre in newActual:
+				fn+=1
+			index+=1
+
+		predicted=tp+fp
+		trueCondition=tp+fn
+
+		if predicted==0:
+			predicted=1
+		if trueCondition==0:
+			trueCondition=1
+
+		print "Genre : "+genre
+		# print tp
+		# print fp
+		# print fn
+		# print trueCondition
+		precision+=tp/(predicted*1.0)
+		recal+=tp/(trueCondition*1.0)
+		print "Precision : "+str(tp/(predicted*1.0))
+		print "Recall : "+str(tp/(trueCondition*1.0))
+		print "-----------------------------------------"
+
+
+	precision=precision/(sumClass*1.0)
+	recal=recal/(sumClass*1.0)
+
+	print "ALL EVALUATION"
+	print "precision : "+str(precision)
+	print "recall : "+str(recal)
 
 # cleansing
 # stopword = np.genfromtxt("stopword.txt", dtype=None, delimiter="\n")
