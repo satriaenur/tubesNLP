@@ -42,6 +42,13 @@ def frequency(data,labels):
 				freq[label][kata] = freq[label].get(kata, 0) + 1
 	return freq,words
 
+def getting_words(data):
+	words = {}
+	for i in data:
+		for kata in i:
+			words[kata] =  words.get(kata, 0)
+	return np.array(words.keys())
+
 def feature_extract(words, katas):
 	features = []
 	for data in words:
@@ -60,13 +67,28 @@ def load_model(filename):
 	return classifier
 
 
-def aplikasi(modelfilename):
-	# words = np.array(map(lambda x: x.lower().split(),np.genfromtxt("input.txt", dtype='string', delimiter="\n")))
+def aplikasi():
 	words = [np.genfromtxt("input.txt", dtype='string', delimiter="\n").tostring().lower().split()]
 	kata = np.genfromtxt("feature_list.txt", dtype='string', delimiter='\n')
 	genre = np.genfromtxt("target_list.txt", dtype='string', delimiter='\n')
 	features = feature_extract(words, kata)
-	model = load_model(modelfilename)
+	model = load_model("naivebayes.pickle")
+	hasil = model.predict(features)
+	for i in hasil:
+		arrresult = np.where(i==1)
+		resultstring = ""
+		for h in arrresult[0]:
+			resultstring += genre[h]+", "
+		print resultstring[:-2],"\n"
+
+def aplikasiStemmed():
+	factory = StemmerFactory()
+	stemmer = factory.create_stemmer()
+	words = [stemmer.stem(np.genfromtxt("input.txt", dtype='string', delimiter="\n").tostring().lower()).split()]
+	kata = np.genfromtxt("featurestemmed_list.txt", dtype='string', delimiter='\n')
+	genre = np.genfromtxt("target_list.txt", dtype='string', delimiter='\n')
+	features = feature_extract(words, kata)
+	model = load_model("naivebayesStemmed.pickle")
 	hasil = model.predict(features)
 	for i in hasil:
 		arrresult = np.where(i==1)
@@ -82,31 +104,34 @@ def aplikasi(modelfilename):
 # np.savetxt("cleanwords3.txt", datastopword, fmt="%s")
 
 # cleansing with stemming
-factory = StemmerFactory()
-stemmer = factory.create_stemmer()
-data = np.genfromtxt("cleanwords3.txt", dtype='string', delimiter="\n")
-data = map(lambda x: stemmer.stem(x), data)
-print data[1]
-np.savetxt("stemmeddata.txt", data, fmt='%s')
+# factory = StemmerFactory()
+# stemmer = factory.create_stemmer()
+# data = np.genfromtxt("stemmeddata.txt", dtype='string', delimiter="\n")
+# data = map(lambda x: stemmer.stem(x), data)
+# print data[1]
+# np.savetxt("stemmeddata.txt", data, fmt='%s')
 
-# count frequency
-# labeltest = np.genfromtxt('labelfornltk.txt',dtype='int')
-# genre, kata = frequency(words,labels)
+# get feature
+# words = np.array(map(lambda x: x.lower().split(),np.genfromtxt("stemmeddata.txt", dtype='string', delimiter="\n")))
+# kata = getting_words(words)
+# np.savetxt("featurestemmed_list.txt", kata, fmt='%s')
 
 # cara extract feature
+# katas = np.genfromtxt("featurestemmed_list.txt", dtype='string', delimiter='\n')
 # features = feature_extract(words, katas)
 
 # cara create model
+# labeltest = np.genfromtxt("labelfornltk.txt", dtype="int")
 # ovr = OneVsRestClassifier(MultinomialNB())
 # ovr.fit(features,labeltest)
 
 # cara save model
-# save_classifier = open("naivebayes.pickle","wb")
+# save_classifier = open("naivebayesStemmed.pickle","wb")
 # pickle.dump(ovr, save_classifier)
 # save_classifier.close()
 
 # cara load model
-# classifier_f = open("naivebayes.pickle", "rb")
+# classifier_f = open("naivebayesStemmed.pickle", "rb")
 # classifier = pickle.load(classifier_f)
 # classifier_f.close()
 
@@ -118,4 +143,5 @@ np.savetxt("stemmeddata.txt", data, fmt='%s')
 # 		print genre.keys()[h]
 
 # Aplikasi jadi
-# aplikasi("naivebayes.pickle")
+aplikasi()
+aplikasiStemmed()
