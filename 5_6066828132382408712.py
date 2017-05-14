@@ -8,6 +8,7 @@ import json
 import pickle
 from sklearn.multiclass import OneVsRestClassifier
 from sklearn.naive_bayes import MultinomialNB
+from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
 
 def tokenisasi():
 	data = pd.read_csv("dataset.csv", quotechar='"', skipinitialspace=True)
@@ -76,9 +77,17 @@ def aplikasi(modelfilename):
 
 # cleansing
 # stopword = np.genfromtxt("stopword.txt", dtype=None, delimiter="\n")
-# data= np.genfromtxt("cleanwords3.txt", dtype='string', delimiter="\n")
+# data = np.genfromtxt("cleanwords3.txt", dtype='string', delimiter="\n")
 # datastopword =getstopword(data, stopword)
 # np.savetxt("cleanwords3.txt", datastopword, fmt="%s")
+
+# cleansing with stemming
+factory = StemmerFactory()
+stemmer = factory.create_stemmer()
+data = np.genfromtxt("cleanwords3.txt", dtype='string', delimiter="\n")
+data = map(lambda x: stemmer.stem(x), data)
+print data[1]
+np.savetxt("stemmeddata.txt", data, fmt='%s')
 
 # count frequency
 # labeltest = np.genfromtxt('labelfornltk.txt',dtype='int')
@@ -109,4 +118,4 @@ def aplikasi(modelfilename):
 # 		print genre.keys()[h]
 
 # Aplikasi jadi
-aplikasi("naivebayes.pickle")
+# aplikasi("naivebayes.pickle")
