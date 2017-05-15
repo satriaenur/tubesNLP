@@ -1,0 +1,196 @@
+Genre : seinen
+Precision : 1.0
+Recall : 0.2
+-----------------------------------------
+Genre : family
+Precision : 0.0
+Recall : 0.0
+-----------------------------------------
+Genre : shounen
+Precision : 0.666666666667
+Recall : 0.153846153846
+-----------------------------------------
+Genre : psychological
+Precision : 0.0
+Recall : 0.0
+-----------------------------------------
+Genre : mecha
+Precision : 0.0
+Recall : 0.0
+-----------------------------------------
+Genre : costume
+Precision : 0.0
+Recall : 0.0
+-----------------------------------------
+Genre : western
+Precision : 0.0
+Recall : 0.0
+-----------------------------------------
+Genre : sitcom
+Precision : 0.0
+Recall : 0.0
+-----------------------------------------
+Genre : crime
+Precision : 0.0
+Recall : 0.0
+-----------------------------------------
+Genre : biography
+Precision : 0.0
+Recall : 0.0
+-----------------------------------------
+Genre : sport
+Precision : 0.0
+Recall : 0.0
+-----------------------------------------
+Genre : police
+Precision : 0.0
+Recall : 0.0
+-----------------------------------------
+Genre : space
+Precision : 0.0
+Recall : 0.0
+-----------------------------------------
+Genre : vampire
+Precision : 0.0
+Recall : 0.0
+-----------------------------------------
+Genre : demons
+Precision : 0.0
+Recall : 0.0
+-----------------------------------------
+Genre : sports
+Precision : 0.0
+Recall : 0.0
+-----------------------------------------
+Genre : romance
+Precision : 0.0
+Recall : 0.0
+-----------------------------------------
+Genre : tv show
+Precision : 0.0
+Recall : 0.0
+-----------------------------------------
+Genre : animation
+Precision : 0.0
+Recall : 0.0
+-----------------------------------------
+Genre : supernatural
+Precision : 0.0
+Recall : 0.0
+-----------------------------------------
+Genre : recommend
+Precision : 0.0
+Recall : 0.0
+-----------------------------------------
+Genre : music
+Precision : 0.0
+Recall : 0.0
+-----------------------------------------
+Genre : comedy
+Precision : 0.0666666666667
+Recall : 0.016393442623
+-----------------------------------------
+Genre : martial arts
+Precision : 0.0
+Recall : 0.0
+-----------------------------------------
+Genre : war
+Precision : 0.0
+Recall : 0.0
+-----------------------------------------
+Genre : harem
+Precision : 0.0
+Recall : 0.0
+-----------------------------------------
+Genre : sci-fi
+Precision : 0.0
+Recall : 0.0
+-----------------------------------------
+Genre : horror
+Precision : 0.0
+Recall : 0.0
+-----------------------------------------
+Genre : game
+Precision : 0.0
+Recall : 0.0
+-----------------------------------------
+Genre : adventure
+Precision : 0.0
+Recall : 0.0
+-----------------------------------------
+Genre : ecchi
+Precision : 0.0
+Recall : 0.0
+-----------------------------------------
+Genre : thriller
+Precision : 0.0
+Recall : 0.0
+-----------------------------------------
+Genre : mystery
+Precision : 0.0
+Recall : 0.0
+-----------------------------------------
+Genre : school
+Precision : 0.0
+Recall : 0.0
+-----------------------------------------
+Genre : short
+Precision : 0.0
+Recall : 0.0
+-----------------------------------------
+Genre : fantasy
+Precision : 0.0
+Recall : 0.0
+-----------------------------------------
+Genre : slice of life
+Precision : 0.0
+Recall : 0.0
+-----------------------------------------
+Genre : genre:
+Precision : 1.0
+Recall : 1.0
+-----------------------------------------
+Genre : shoujo
+Precision : 0.0
+Recall : 0.0
+-----------------------------------------
+Genre : film-noir
+Precision : 0.0
+Recall : 0.0
+-----------------------------------------
+Genre : musical
+Precision : 0.0
+Recall : 0.0
+-----------------------------------------
+Genre : drama
+Precision : 0.0849056603774
+Recall : 0.931034482759
+-----------------------------------------
+Genre : historical
+Precision : 0.0
+Recall : 0.0
+-----------------------------------------
+Genre : action
+Precision : 0.113636363636
+Recall : 0.967741935484
+-----------------------------------------
+Genre : history
+Precision : 0.0
+Recall : 0.0
+-----------------------------------------
+Genre : documentary
+Precision : 0.142857142857
+Recall : 0.333333333333
+-----------------------------------------
+Genre : super power
+Precision : 0.0
+Recall : 0.0
+-----------------------------------------
+Genre : parody
+Precision : 0.0
+Recall : 0.0
+-----------------------------------------
+ALL EVALUATION
+precision : 0.0640569270876
+recall : 0.0750489447509
+F1-Score0.0451803864554
