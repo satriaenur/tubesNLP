@@ -233,6 +233,6 @@ def evaluation():
 # Aplikasi jadi
 # print aplikasi("naivebayes.pickle",'input.txt')
 # predictdatatest()
-evaluation()
+# evaluation()
 # aplikasiStemmed()
 # toDataTest()
